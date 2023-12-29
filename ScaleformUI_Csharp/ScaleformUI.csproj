@@ -14,7 +14,7 @@
     <PackageProjectUrl>https://github.com/manups4e/ScaleformUI</PackageProjectUrl>
     <Copyright>Copyright Leonardo Emanuele Colecchia</Copyright>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>	
     <DebugType>embedded</DebugType>
     <TargetName>ScaleformUI</TargetName>
     <WarningsNotAsErrors>$(WarningsNotAsError);8632;8618;8600;8602;8625</WarningsNotAsErrors>
@@ -22,9 +22,12 @@
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <Version>4.9.0</Version>
+	<PackageVersion>$(Version)</PackageVersion>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <BaseOutputPath>..\CompiledLibs\</BaseOutputPath>
+    <BaseOutputPath>..\CompiledLibs\</BaseOutputPath>	
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<noWarn>1591</noWarn>
   </PropertyGroup>
 
   <ItemGroup>
