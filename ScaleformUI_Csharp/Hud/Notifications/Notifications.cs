@@ -2,6 +2,7 @@
 using CitizenFX.Core.Native;
 using CitizenFX.Core.UI;
 using ScaleformUI.Elements;
+using ScaleformUI.Extensions;
 using ScaleformUI.Scaleforms;
 using static CitizenFX.Core.Native.API;
 using Font = CitizenFX.Core.UI.Font;
@@ -172,7 +173,7 @@ namespace ScaleformUI
         public static async Task<ScaleformUINotification> ShowStatNotification(int newProgress, int oldProgress, string title, bool blink = false, bool showBrief = true)
         {
             AddTextEntry("ScaleformUIStatsNotification", title);
-            Tuple<int, string> mug = await GetPedMugshotAsync(Game.PlayerPed);
+            Tuple<int, string> mug = await Game.PlayerPed.GetPedMugshotAsync();
             BeginTextCommandThefeedPost("PS_UPDATE");
             AddTextComponentInteger(newProgress);
             Function.Call(Hash.END_TEXT_COMMAND_THEFEED_POST_STATS, "ScaleformUIStatsNotification", 2, newProgress, oldProgress, false, mug.Item2, mug.Item2);
@@ -205,8 +206,8 @@ namespace ScaleformUI
         /// <param name="rightColor">Color for ped on the right</param>
         public static async Task<ScaleformUINotification> ShowVSNotification(Ped leftPed, int leftScore, HudColor leftColor, Ped rightPed, int rightScore, HudColor rightColor)
         {
-            Tuple<int, string> mug = await GetPedMugshotAsync(leftPed);
-            Tuple<int, string> otherMug = await GetPedMugshotAsync(rightPed);
+            Tuple<int, string> mug = await leftPed.GetPedMugshotAsync();
+            Tuple<int, string> otherMug = await rightPed.GetPedMugshotAsync();
             BeginTextCommandThefeedPost("");
             return new(Function.Call<int>(Hash.END_TEXT_COMMAND_THEFEED_POST_VERSUS_TU, mug.Item2, mug.Item2, leftScore, otherMug.Item2, otherMug.Item2, rightScore, leftColor, rightColor));
         }
@@ -333,16 +334,6 @@ namespace ScaleformUI
         public static void StopLoadingMessage()
         {
             Main.InstructionalButtons.HideSavingText();
-        }
-
-        internal static async Task<Tuple<int, string>> GetPedMugshotAsync(Ped ped, bool transparent = false)
-        {
-            int mugshot = RegisterPedheadshot(ped.Handle);
-            if (transparent) mugshot = RegisterPedheadshotTransparent(ped.Handle);
-            while (!IsPedheadshotReady(mugshot)) await BaseScript.Delay(1);
-            string txd = GetPedheadshotTxdString(mugshot);
-
-            return new Tuple<int, string>(mugshot, txd);
         }
     }
 }
